@@ -3,6 +3,8 @@ package distribuidos.sistemas.servidor;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import distribuidos.sistemas.servidor.servicos.Multiplicar;
 import distribuidos.sistemas.servidor.servicos.Somar;
 import distribuidos.sistemas.servidor.servicos.Subtrair;
 
@@ -24,16 +26,20 @@ public class Controlador {
 	public void iniciar() {
 		this.servicos.put("somar", Somar.class);
 		this.servicos.put("subtrair", Subtrair.class);
+		this.servicos.put("multiplicar", Multiplicar.class);
 	}
 
 	public void gerenciar(Usuario usuario, String nome, List<String> args) {
 		try {
 			ServicoInterface servico = this.getServico(nome);
-			servico.iniciar(usuario, args);
-
-			String resposta = servico.executar();
-			usuario.enviar(resposta);
-		} catch (Exception e) {
+			if ((servico == null)) {
+				usuario.enviar("Serviço " + nome + " não está disponível.");
+			} else {
+				servico.iniciar(usuario, args);
+				String resposta = servico.executar();
+				usuario.enviar(resposta);
+			}
+		} catch (Exception e) { 
 			// TODO Cliente desatualizado?
 		}
 	}
