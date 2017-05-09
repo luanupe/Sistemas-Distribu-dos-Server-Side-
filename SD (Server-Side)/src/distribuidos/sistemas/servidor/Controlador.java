@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import distribuidos.sistemas.servidor.servicos.Somar;
+import distribuidos.sistemas.servidor.servicos.Subtrair;
 
 /**
  *
@@ -22,13 +23,16 @@ public class Controlador {
 
 	public void iniciar() {
 		this.servicos.put("somar", Somar.class);
+		this.servicos.put("subtrair", Subtrair.class);
 	}
 
 	public void gerenciar(Usuario usuario, String nome, List<String> args) {
 		try {
 			ServicoInterface servico = this.getServico(nome);
 			servico.iniciar(usuario, args);
-			usuario.enviar(servico.executar());
+
+			String resposta = servico.executar();
+			usuario.enviar(resposta);
 		} catch (Exception e) {
 			// TODO Cliente desatualizado?
 		}

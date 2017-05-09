@@ -15,7 +15,7 @@ public abstract class ServicoInterface {
 	private Usuario usuario;
 	private List<String> args;
 
-	public void iniciar(Usuario usuario, List<String> args) {
+	public final void iniciar(Usuario usuario, List<String> args) {
 		this.usuario = usuario;
 		this.args = args;
 	}
