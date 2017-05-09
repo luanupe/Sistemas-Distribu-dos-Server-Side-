@@ -2,7 +2,6 @@ package distribuidos.sistemas.servidor.servicos;
 
 import java.io.IOException;
 import distribuidos.sistemas.servidor.ServicoInterface;
-import distribuidos.sistemas.servidor.Usuario;
 
 /**
  *
@@ -12,10 +11,6 @@ import distribuidos.sistemas.servidor.Usuario;
  *
  */
 public class Somar extends ServicoInterface {
-
-	public Somar(Usuario usuario) {
-		super(usuario);
-	}
 
 	@Override
 	public String executar() throws IOException {

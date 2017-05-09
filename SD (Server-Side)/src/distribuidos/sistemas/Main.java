@@ -1,7 +1,7 @@
 package distribuidos.sistemas;
 
 import java.io.IOException;
-import distribuidos.sistemas.servidor.Controlador;
+import distribuidos.sistemas.servidor.Server;
 
 /**
  *
@@ -13,8 +13,9 @@ import distribuidos.sistemas.servidor.Controlador;
 public class Main {
 
 	public static void main(String[] args) throws IOException {
-		Controlador controlador = new Controlador();
-		controlador.iniciar();
+		Server server = new Server();
+		server.iniciar();
+		server.run();
 	}
 
 }

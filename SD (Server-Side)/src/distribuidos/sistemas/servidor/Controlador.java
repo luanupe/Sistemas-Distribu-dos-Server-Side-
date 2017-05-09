@@ -1,40 +1,44 @@
 package distribuidos.sistemas.servidor;
 
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import distribuidos.sistemas.servidor.servicos.Somar;
 
 /**
  *
  * Author: Luan Augusto, LAF
- * Date: 7 de mai de 2017
- * Time: 22:09:37
+ * Date: 9 de mai de 2017
+ * Time: 08:56:59
  *
  */
-public class Controlador extends ServerSocket {
+public class Controlador {
 
-	private static final int PORTA = 5588;
+	private Map<String, Class<?>> servicos;
 
-	/* */
-
-	public Controlador() throws IOException {
-		super(Controlador.PORTA);
-		System.out.println("Servidor iniciado em " + Controlador.PORTA);
+	protected Controlador() {
+		this.servicos = new HashMap<String, Class<?>>();
 	}
 
 	public void iniciar() {
-		while (true) {
-			try {
-				Socket socket = super.accept();
-				if ((socket != null)) {
-					System.out.println(" Nova Conexão > " + socket.getInetAddress());
-					Usuario usuario = new Usuario(socket);
-					usuario.start();
-				}
-			} catch (IOException e) {
-				// TODO O que fazer aqui?
-			}
+		this.servicos.put("somar", Somar.class);
+	}
+
+	public void gerenciar(Usuario usuario, String nome, List<String> args) {
+		try {
+			ServicoInterface servico = this.getServico(nome);
+			servico.iniciar(usuario, args);
+			usuario.enviar(servico.executar());
+		} catch (Exception e) {
+			// TODO Cliente desatualizado?
 		}
+	}
+
+	public ServicoInterface getServico(String nome) throws Exception {
+		if ((this.servicos.containsKey(nome) == false)) {
+			return null;
+		}
+		return (ServicoInterface) this.servicos.get(nome).newInstance();
 	}
 
 }

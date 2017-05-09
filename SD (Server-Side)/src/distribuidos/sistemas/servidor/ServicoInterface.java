@@ -1,7 +1,6 @@
 package distribuidos.sistemas.servidor;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,13 +15,9 @@ public abstract class ServicoInterface {
 	private Usuario usuario;
 	private List<String> args;
 
-	public ServicoInterface(Usuario usuario) {
+	public void iniciar(Usuario usuario, List<String> args) {
 		this.usuario = usuario;
-		this.args = new ArrayList<String>();
-	}
-
-	public final void add(String arg) {
-		this.args.add(arg);
+		this.args = args;
 	}
 
 	public abstract String executar() throws IOException;
